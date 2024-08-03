@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+</head>
+<body style='margin: 0; overflow: hidden;'>
+  <a-scene vr-mode-ui="enabled: false;" loading-screen="enabled: false;" renderer="logarithmicDepthBuffer: true;"
+           arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="scene" embedded gesture-detector>
+    <a-assets>
+      <a-asset-item id="animated-asset" src="Duck.gltf"></a-asset-item>
+      <a-asset-item id="duck-model" src="Duck.gltf"></a-asset-item>
+      <a-asset-item id="another-model" src="Tree.glb"></a-asset-item>
+      <a-asset-item id="octopus-model" src="Octopus.glb"></a-asset-item>
+    </a-assets>
+
+    <!-- Custom Marker -->
+    <a-marker id="animated-marker" type="pattern" preset="custom" url="marker.patt" raycaster="objects: .clickable"
+              emitevents="true" cursor="fuse: false; rayOrigin: mouse;">
+      <a-entity id="bowser-model" scale="0.4 0.4 0.4" animation-mixer="loop: repeat" gltf-model="#animated-asset"
+                class="clickable" gesture-handler></a-entity>
+    </a-marker>
+
+    <!-- Hiro Marker -->
+    <a-marker preset="hiro">
+      <a-entity id="duck" gltf-model="#duck-model" scale="0.3 0.3 0.3"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; startEvents: spin">
+      </a-entity>
+    </a-marker>
+
+    <!-- Kanji Marker -->
+    <a-marker preset="kanji">
+      <a-entity id="another-entity" gltf-model="#another-model" scale="0.3 0.3 0.3"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; startEvents: spin">
+      </a-entity>
+    </a-marker>
+
+    <!-- Octopus Marker -->
+    <a-marker type='pattern' url='pattern-Capture.patt'>
+      <a-entity id="octopus-entity" gltf-model="#octopus-model" scale="0.3 0.3 0.3"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; startEvents: spin">
+      </a-entity>
+    </a-marker>
+
+    <!-- Camera and UI -->
+    <a-entity camera>
+      <a-cursor></a-cursor>
+      <a-text value="Please point your camera at the Octopus, Hiro, or Kanji marker."
+              align="center" position="0 1 -2" color="red" visible="true"></a-text>
+    </a-entity>
+  </a-scene>
+</body>
+</html>
